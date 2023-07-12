@@ -2,6 +2,7 @@ import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import rootRouter from './router';
+import './global.css';
 
 const title = {
   organization: 'facebook',

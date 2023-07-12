@@ -1,33 +1,50 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { IssueTitle } from '../../components';
 import ReactMarkdown from 'react-markdown';
 import { LoadingPage } from '..';
 import useDetail from '../../hooks/useDetail';
+import styled from '@emotion/styled';
 
 const Detail = () => {
-  const navigate = useNavigate();
   const { detail, isLoading } = useDetail();
 
   return isLoading ? (
     <LoadingPage />
   ) : (
     <main>
-      <h1>Detail</h1>
-      <button onClick={() => navigate(-1)}>뒤로가기~</button>
+      <Header>
+        <ImageContainer>
+          <img src={detail.user.avatar_url} alt="userImage" />
+        </ImageContainer>
 
-      <img src={detail.user.avatar_url} alt="userImage" />
-      <IssueTitle
-        key={detail.created_at + detail.number}
-        number={detail.number}
-        title={detail.title}
-        created_at={detail.created_at}
-        commentCount={detail.commentCount}
-        username={detail.user.login}
-      />
+        <IssueTitle
+          key={detail.created_at + detail.number}
+          number={detail.number}
+          title={detail.title}
+          created_at={detail.created_at}
+          comments={detail.comments}
+          username={detail.user.login}
+        />
+      </Header>
       <ReactMarkdown>{detail.body}</ReactMarkdown>
     </main>
   );
 };
 
+const Header = styled.header`
+  display: flex;
+  margin-bottom: 32px;
+  align-items: center;
+`;
+
+const ImageContainer = styled.div`
+  width: 60px;
+  height: 60px;
+  margin-right: 12px;
+
+  > img {
+    width: 100%;
+    border-radius: 4px;
+  }
+`;
 export default Detail;

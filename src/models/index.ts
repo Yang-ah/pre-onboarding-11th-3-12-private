@@ -1,5 +1,3 @@
-// TODO : 겹치는 부분 리팩토링하기
-
 interface ITitle {
   organization: string;
   repository: string;
@@ -17,10 +15,11 @@ export interface ICommon {
   number: number;
   title: string;
   created_at: string;
-  commentCount: number;
+  comments: number;
 }
 
 export interface IIssue extends ICommon {
+  state: string;
   user: {
     login: string;
   };

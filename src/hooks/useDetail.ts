@@ -13,7 +13,7 @@ const useDetail = () => {
     title: '',
     created_at: '',
     body: '',
-    commentCount: 0,
+    comments: 0,
     user: {
       login: '',
       avatar_url: '',
@@ -27,14 +27,14 @@ const useDetail = () => {
       id: Number(id),
     });
 
-    const { title, created_at, body, commentCount, user } = response.data;
+    const { title, created_at, body, comments, user } = response.data;
 
     setDetail({
       number: Number(id),
       title,
       created_at,
       body,
-      commentCount,
+      comments,
       user: {
         login: user.login,
         avatar_url: user.avatar_url,
