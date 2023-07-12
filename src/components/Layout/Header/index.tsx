@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { IssuesContext } from '../../..';
+import { TitleContext } from '../../..';
 
 const Header = () => {
-  const title = useContext(IssuesContext);
+  const title = useContext(TitleContext);
   return (
     <header>
       {title.organization.toUpperCase()} / {title.repository.toUpperCase()}

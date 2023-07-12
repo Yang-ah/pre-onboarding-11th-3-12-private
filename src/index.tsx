@@ -8,7 +8,7 @@ const title = {
   repository: 'react',
 };
 
-export const IssuesContext = createContext(title);
+export const TitleContext = createContext(title);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -16,8 +16,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <IssuesContext.Provider value={title}>
+    <TitleContext.Provider value={title}>
       <RouterProvider router={rootRouter} />
-    </IssuesContext.Provider>
+    </TitleContext.Provider>
   </React.StrictMode>,
 );

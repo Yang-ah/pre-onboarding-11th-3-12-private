@@ -1,10 +1,5 @@
 import { Link } from 'react-router-dom';
-
-interface IImage {
-  src: string;
-  alt: string;
-  path: string;
-}
+import { IImage } from '../../models';
 
 const Advertisement = ({ src, alt, path }: IImage) => {
   return (
