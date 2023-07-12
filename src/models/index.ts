@@ -5,7 +5,23 @@ export interface ITitle {
   repository: string;
 }
 
+export interface IAnIssue {
+  organization: string;
+  repository: string;
+  id: number;
+}
+
 export interface IIssue {
+  number: number;
+  title: string;
+  created_at: string;
+  commentCount: number;
+  user: {
+    login: string;
+  };
+}
+
+export interface IDetail {
   number: number;
   title: string;
   created_at: string;

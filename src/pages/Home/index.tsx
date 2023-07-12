@@ -5,7 +5,7 @@ import { IIssue } from '../../models';
 import { IssueTitle } from '../../components/Common';
 
 const Home = () => {
-  const { issues } = useIssues();
+  const issues = useIssues();
 
   return (
     <main>
@@ -26,14 +26,15 @@ const Home = () => {
   );
 };
 
+// number list 받아오기
 const useIssues = () => {
-  const title = useContext(IssuesContext);
+  const { organization, repository } = useContext(IssuesContext);
   const [issues, setIssues] = useState<IIssue[]>([]);
 
   const getIssueList = async () => {
     const response = await getIssues({
-      organization: title.organization,
-      repository: title.repository,
+      organization,
+      repository,
     });
 
     setIssues(response.data);
@@ -43,7 +44,7 @@ const useIssues = () => {
     getIssueList();
   }, []);
 
-  return { issues, setIssues };
+  return issues;
 };
 
 export default Home;
