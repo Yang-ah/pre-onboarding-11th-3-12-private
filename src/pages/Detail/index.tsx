@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getAnIssue } from '../../api';
 import { IssuesContext } from '../..';
-import { IssueTitle } from '../../components/Common';
+import { IssueTitle } from '../../components';
 import { IDetail } from '../../models';
 
 const Detail = () => {

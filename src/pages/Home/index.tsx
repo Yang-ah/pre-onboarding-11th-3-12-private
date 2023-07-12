@@ -2,7 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { IssuesContext } from '../..';
 import { getIssues } from '../../api';
 import { IIssue } from '../../models';
-import { IssueTitle } from '../../components/Common';
+import { Advertisement, IssueTitle } from '../../components';
+
+const adImage =
+  'https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fuserweb%2Flogo_wanted_black.png&w=110&q=100';
 
 const Home = () => {
   const issues = useIssues();
@@ -10,16 +13,20 @@ const Home = () => {
   return (
     <main>
       <h1>Home</h1>
-      {issues.map((issue: IIssue) => {
+      {issues.map((issue: IIssue, index) => {
         return (
-          <IssueTitle
-            key={issue.created_at + issue.number}
-            number={issue.number}
-            title={issue.title}
-            created_at={issue.created_at}
-            commentCount={issue.commentCount}
-            username={issue.user.login}
-          />
+          <React.Fragment key={issue.created_at + issue.number}>
+            {index % 4 === 0 && index !== 0 && (
+              <Advertisement src={adImage} alt="wanted" />
+            )}
+            <IssueTitle
+              number={issue.number}
+              title={issue.title}
+              created_at={issue.created_at}
+              commentCount={issue.commentCount}
+              username={issue.user.login}
+            />
+          </React.Fragment>
         );
       })}
     </main>
