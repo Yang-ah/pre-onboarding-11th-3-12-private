@@ -6,7 +6,7 @@ import { getIssues } from '../api';
 const useIssuesInfiniteScroll = () => {
   const { organization, repository } = useContext(TitleContext);
   const [issues, setIssues] = useState<IIssue[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(2);
   const [isLoading, setIsLoading] = useState(true);
 
   const getIssueList = async (page: number) => {
@@ -27,6 +27,7 @@ const useIssuesInfiniteScroll = () => {
     const { scrollTop } = document.documentElement;
 
     if (Math.round(scrollTop + innerHeight) >= scrollHeight) {
+      setIsLoading(true);
       getIssueList(currentPage + 1);
     }
   }, [currentPage]);

@@ -36,7 +36,6 @@ const Article = styled.article`
   padding: 16px;
   display: flex;
   justify-content: space-between;
-  border-bottom: 0.5px solid grey;
   align-items: center;
 `;
 

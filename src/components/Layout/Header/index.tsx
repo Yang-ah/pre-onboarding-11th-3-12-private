@@ -1,12 +1,19 @@
 import React, { useContext } from 'react';
 import { TitleContext } from '../../..';
 import styled from '@emotion/styled';
+import { IconGithub } from '../../../assets';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const title = useContext(TitleContext);
+  const navigate = useNavigate();
+
   return (
     <HeaderBox>
-      {title.organization.toUpperCase()} / {title.repository.toUpperCase()}
+      <TitleWrap onClick={() => navigate('/')}>
+        <IconGithub />
+        {title.organization.toUpperCase()} / {title.repository.toUpperCase()}
+      </TitleWrap>
     </HeaderBox>
   );
 };
@@ -14,11 +21,27 @@ const Header = () => {
 const HeaderBox = styled.header`
   width: 100%;
   min-width: 400px;
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 800;
+  padding-bottom: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const TitleWrap = styled.div`
   letter-spacing: 0.5px;
-  padding-bottom: 40px;
-  text-align: center;
+  cursor: pointer;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > svg {
+    width: 32px;
+    height: 32px;
+    padding-right: 4px;
+  }
 `;
 
 export default Header;

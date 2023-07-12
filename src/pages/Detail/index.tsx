@@ -1,16 +1,13 @@
 import React from 'react';
-import { IssueTitle } from '../../components';
+import { IssueTitle, Loading } from '../../components';
 import ReactMarkdown from 'react-markdown';
-import { LoadingPage } from '..';
 import useDetail from '../../hooks/useDetail';
 import styled from '@emotion/styled';
 
 const Detail = () => {
   const { detail, isLoading } = useDetail();
 
-  return isLoading ? (
-    <LoadingPage />
-  ) : (
+  return (
     <main>
       <Header>
         <ImageContainer>
@@ -27,6 +24,7 @@ const Detail = () => {
         />
       </Header>
       <ReactMarkdown>{detail.body}</ReactMarkdown>
+      {isLoading && <Loading/>}
     </main>
   );
 };

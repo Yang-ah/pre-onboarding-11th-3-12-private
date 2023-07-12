@@ -14,6 +14,7 @@ const Layout = () => {
 const Wrap = styled.div`
   width: 100%;
   padding: 40px 120px;
+  background-color: #f6f8fa;
   display: flex;
   flex-direction: column;
   align-items: center;

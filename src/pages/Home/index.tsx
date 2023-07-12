@@ -1,16 +1,14 @@
 import React from 'react';
 import { IIssue } from '../../models';
-import { Advertisement, IssueTitle } from '../../components';
-import { LoadingPage } from '..';
+import { Advertisement, IssueTitle, Loading } from '../../components';
 import useIssuesInfiniteScroll from '../../hooks/useIssuesInfiniteScroll';
 import styled from '@emotion/styled';
+import { IconLeaf } from '../../assets';
 
 const Home = () => {
   const { issues, isLoading } = useIssuesInfiniteScroll();
 
-  return isLoading ? (
-    <LoadingPage />
-  ) : (
+  return (
     <Main>
       {issues.map((issue: IIssue, index) => {
         return (
@@ -22,17 +20,20 @@ const Home = () => {
                 path={adObject.path}
               />
             )}
-            <StateTag>{issue.state}</StateTag>
-            <IssueTitle
-              number={issue.number}
-              title={issue.title}
-              created_at={issue.created_at}
-              comments={issue.comments}
-              username={issue.user.login}
-            />
+            <div>
+              <StateTag>{issue.state === 'open' && <IconLeaf />}</StateTag>
+              <IssueTitle
+                number={issue.number}
+                title={issue.title}
+                created_at={issue.created_at}
+                comments={issue.comments}
+                username={issue.user.login}
+              />
+            </div>
           </React.Fragment>
         );
       })}
+      {isLoading && <Loading />}
     </Main>
   );
 };
@@ -46,17 +47,26 @@ const adObject = {
 const Main = styled.main`
   width: 80%;
   min-width: 400px;
-  cursor: pointer;
+
+  > div {
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    border: 0.5px solid #d0d7de;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.7);
+  }
 `;
 
 const StateTag = styled.div`
-  width: 40px;
-  text-align: center;
-  border-radius: 12px;
-  padding: 4px;
-  margin: 4px 0;
-  font-size: 14px;
-  background-color: rgba(1, 1, 1, 0.1);
+  width: 24px;
+  > svg {
+    width: 24px;
+    height: 24px;
+    fill: #217e3b;
+  }
 `;
 
 export default Home;
