@@ -30,7 +30,7 @@ const useIssuesInfiniteScroll = () => {
       setIsLoading(true);
       getIssueList(currentPage + 1);
     }
-  }, [currentPage]);
+  }, [currentPage, issues]);
 
   useEffect(() => {
     getIssueList(1);
