@@ -4,6 +4,7 @@ import { getAnIssue } from '../../api';
 import { IssuesContext } from '../..';
 import { IssueTitle } from '../../components';
 import { IDetail } from '../../models';
+import ReactMarkdown from 'react-markdown';
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const Detail = () => {
         commentCount={commentCount}
         username={user.login}
       />
-      <div>{body}</div>
+      <ReactMarkdown>{body}</ReactMarkdown>
     </main>
   );
 };
