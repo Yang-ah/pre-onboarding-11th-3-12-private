@@ -1,9 +1,7 @@
 import axios from 'axios';
 
 const BASE_URL = `https://api.github.com/repos/`;
-
-// TODO : 과제 제출 & 배포 시 token 숨기기
-const TOKEN = localStorage.getItem('token');
+const TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
