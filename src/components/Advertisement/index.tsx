@@ -1,13 +1,16 @@
+import { Link } from 'react-router-dom';
+
 interface IImage {
   src: string;
   alt: string;
+  path: string;
 }
 
-const Advertisement = ({ src, alt }: IImage) => {
+const Advertisement = ({ src, alt, path }: IImage) => {
   return (
-    <div>
+    <Link to={path} target="_blank">
       <img src={src} alt={alt} />
-    </div>
+    </Link>
   );
 };
 

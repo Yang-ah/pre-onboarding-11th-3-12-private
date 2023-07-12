@@ -1,11 +1,12 @@
 // TODO : 겹치는 부분 리팩토링하기
 
-export interface ITitle {
+export interface IGetIssues {
   organization: string;
   repository: string;
+  page?: number;
 }
 
-export interface IAnIssue {
+export interface IGetAnIssue {
   organization: string;
   repository: string;
   id: number;

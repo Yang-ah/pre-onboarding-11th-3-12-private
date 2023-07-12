@@ -1,16 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getAnIssue } from '../../api';
 import { IssuesContext } from '../..';
 import { IssueTitle } from '../../components';
 import { IDetail } from '../../models';
 
 const Detail = () => {
+  const navigate = useNavigate();
   const { number, title, created_at, body, commentCount, user } = useDetail();
 
   return (
     <main>
       <h1>Detail</h1>
+      <button onClick={() => navigate(-1)}>뒤로가기~</button>
+
       <img src={user.avatar_url} alt="userImage" />
       <IssueTitle
         key={created_at + number}
@@ -46,13 +49,13 @@ const useDetail = () => {
     const response = await getAnIssue({
       organization,
       repository,
-      id: Number(!!id),
+      id: Number(id),
     });
 
     const { title, created_at, body, commentCount, user } = response.data;
 
     setDetail({
-      number: Number(!!id),
+      number: Number(id),
       title,
       created_at,
       body,
