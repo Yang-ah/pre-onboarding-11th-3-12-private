@@ -26,6 +26,7 @@ export interface IIssue extends ICommon {
 }
 
 export interface IDetail extends ICommon {
+  state: string;
   body: string;
   user: {
     login: string;

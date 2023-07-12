@@ -3,6 +3,7 @@ import { IssueTitle, Loading } from '../../components';
 import ReactMarkdown from 'react-markdown';
 import useDetail from '../../hooks/useDetail';
 import styled from '@emotion/styled';
+import { IconLeaf } from '../../assets';
 
 const Detail = () => {
   const { detail, isLoading } = useDetail();
@@ -12,9 +13,12 @@ const Detail = () => {
   ) : (
     <Wrap>
       <Header>
-        <ImageContainer>
+        <LeftContainer>
           <img src={detail.user.avatar_url} alt="userImage" />
-        </ImageContainer>
+          <div>
+            <IconLeaf /> {detail.state.toUpperCase()}
+          </div>
+        </LeftContainer>
 
         <IssueTitle
           key={detail.created_at + detail.number}
@@ -42,10 +46,28 @@ const Header = styled.header`
   align-items: center;
 `;
 
-const ImageContainer = styled.div`
+const LeftContainer = styled.div`
   width: 60px;
-  height: 60px;
-  margin-right: 12px;
+  height: 80px;
+  margin-right: 8px;
+
+  > div {
+    display: flex;
+    align-items: center;
+    margin-top: 4px;
+    padding: 6px 8px;
+    border-radius: 20px;
+    background-color: #268741;
+    font-size: 12px;
+    color: white;
+
+    > svg {
+      width: 12px;
+      height: 12px;
+      margin: 0 2px -2px 0;
+      fill: white;
+    }
+  }
 
   > img {
     width: 100%;
