@@ -22,7 +22,6 @@ acronym,
 address,
 big,
 cite,
-code,
 del,
 dfn,
 em,
@@ -93,10 +92,8 @@ body {
   line-height: 1;
 }
 
-ol,
-ul,
-li {
-  list-style: none;
+strong {
+  font-weight: 500;
 }
 
 * {
