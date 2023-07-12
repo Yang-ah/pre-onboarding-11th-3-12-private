@@ -41,6 +41,7 @@ const TitleWrap = styled.div`
     width: 32px;
     height: 32px;
     padding-right: 4px;
+    fill: #1f2328;
   }
 `;
 

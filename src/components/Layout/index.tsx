@@ -13,6 +13,7 @@ const Layout = () => {
 
 const Wrap = styled.div`
   width: 100%;
+  min-height: 100vh;
   padding: 40px 120px;
   background-color: #f6f8fa;
   display: flex;

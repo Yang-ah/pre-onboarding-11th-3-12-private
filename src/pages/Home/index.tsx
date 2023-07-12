@@ -9,32 +9,34 @@ const Home = () => {
   const { issues, isLoading } = useIssuesInfiniteScroll();
 
   return (
-    <Main>
-      {issues.map((issue: IIssue, index) => {
-        return (
-          <React.Fragment key={issue.created_at + issue.number}>
-            {index % 4 === 0 && index !== 0 && (
-              <Advertisement
-                src={adObject.src}
-                alt={adObject.alt}
-                path={adObject.path}
-              />
-            )}
-            <div>
-              <StateTag>{issue.state === 'open' && <IconLeaf />}</StateTag>
-              <IssueTitle
-                number={issue.number}
-                title={issue.title}
-                created_at={issue.created_at}
-                comments={issue.comments}
-                username={issue.user.login}
-              />
-            </div>
-          </React.Fragment>
-        );
-      })}
+    <>
+      <Main>
+        {issues.map((issue: IIssue, index) => {
+          return (
+            <React.Fragment key={issue.created_at + issue.number}>
+              {index % 4 === 0 && index !== 0 && (
+                <Advertisement
+                  src={adObject.src}
+                  alt={adObject.alt}
+                  path={adObject.path}
+                />
+              )}
+              <div>
+                <StateTag>{issue.state === 'open' && <IconLeaf />}</StateTag>
+                <IssueTitle
+                  number={issue.number}
+                  title={issue.title}
+                  created_at={issue.created_at}
+                  comments={issue.comments}
+                  username={issue.user.login}
+                />
+              </div>
+            </React.Fragment>
+          );
+        })}
+      </Main>
       {isLoading && <Loading />}
-    </Main>
+    </>
   );
 };
 
