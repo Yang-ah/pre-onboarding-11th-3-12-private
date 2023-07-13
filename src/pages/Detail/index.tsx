@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import useDetail from '../../hooks/useDetail';
 import styled from '@emotion/styled';
 import { IconLeaf } from '../../assets';
+import remarkGfm from 'remark-gfm';
 
 const Detail = () => {
   const { detail, isLoading } = useDetail();
@@ -30,7 +31,7 @@ const Detail = () => {
         />
       </Header>
       <Main>
-        <ReactMarkdown>{detail.body}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{detail.body}</ReactMarkdown>
       </Main>
     </Wrap>
   );
@@ -91,8 +92,10 @@ const Main = styled.section`
     border-bottom: 0.5px solid #d0d7de;
   }
 
-  p {
+  p,
+  li {
     margin: 20px 0;
+    line-height: 1.2;
   }
 
   code {
@@ -107,10 +110,6 @@ const Main = styled.section`
     margin: 20px 0;
     width: 100%;
     max-width: 600px;
-  }
-
-  li {
-    padding: 8px 0;
   }
 `;
 export default Detail;
