@@ -10,6 +10,10 @@ const useIssuesInfiniteScroll = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const getIssueList = async (page: number) => {
+    if (page !== 1 && !issues.length) {
+      page = 1;
+    }
+
     const response = await getIssues({
       organization,
       repository,
