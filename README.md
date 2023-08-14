@@ -1,5 +1,5 @@
 ## 원티드 프리온보딩 프론트엔드 인턴십 - 3주차 과제
-- 배포링크: [바로가기](https://web-pre-onboarding-11th-3-12-kvmh2mlk0cmy85.sel4.cloudtype.app/)
+- 배포링크: [바로가기](https://web-pre-onboarding-11th-3-12-private-7xwyjq992llizvha4k.sel4.cloudtype.app/)
 - 과제: [특정 깃헙 레포지토리](https://github.com/facebook/react/issues)의 이슈 목록과 상세 내용을 확인하는 웹 사이트 구축
 
 <br>
