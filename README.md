@@ -1,6 +1,10 @@
 ## 원티드 프리온보딩 프론트엔드 인턴십 - 3주차 과제
 - 배포링크: [바로가기](https://web-pre-onboarding-11th-3-12-private-7xwyjq992llizvha4k.sel4.cloudtype.app/)
-- 과제: [특정 깃헙 레포지토리](https://github.com/facebook/react/issues)의 이슈 목록과 상세 내용을 확인하는 웹 사이트 구축
+- 개인 과제: [특정 깃헙 레포지토리](https://github.com/facebook/react/issues)의 이슈 목록과 상세 내용을 확인하는 웹 사이트 구축
+- 팀 과제: 동료학습을 통해서 팀에서 생각한 3주차 과제의 Best Pratice를 만들고 제출 ([팀 과제 Repository](https://github.com/wanted-pre-onboarding-team12/pre-onboarding-11th-3-12))
+- 팀 토론: [무한스크롤](https://github.com/wanted-pre-onboarding-team12/pre-onboarding-11th-3-12/discussions/7), [Context API를 활용한 api 연동](https://github.com/wanted-pre-onboarding-team12/pre-onboarding-11th-3-12/discussions/2), [데이터 요청 중 로딩 표시](https://github.com/wanted-pre-onboarding-team12/pre-onboarding-11th-3-12/discussions/3), [지정된 조건에 맞게 데이터 요청 및 표시](https://github.com/wanted-pre-onboarding-team12/pre-onboarding-11th-3-12/discussions/5)
+- [팀 회의록 및 타임라인](https://yangah.notion.site/f18d918b470b43b889e0f334fbf8c8c2?pvs=4), [개발 flow](https://www.figma.com/file/fZE333aiqYLWVoJhpw0rah/%EA%B0%9C%EB%B0%9C-flow?type=design&node-id=0-1&mode=design&t=9rtDUmfLLdcSMxKs-0)
+
 
 <br>
 
@@ -30,6 +34,25 @@
 
 <br>
 <br>
+
+
+## 프로젝트 시작 
+로컬에서 프로젝트 실행 시, 깃허브 토큰 환경변수 설정이 필요합니다.
+
+```
+REACT_APP_GITHUB_TOKEN=발급받은 깃허브 토큰
+```
+
+환경변수 설정 후 터미널에 아래 명령어를 실행하여 프로젝트를 시작 할 수 있습니다. 
+
+```
+npm install
+npm start
+```
+
+<br>
+<br>
+
 
 
 
