@@ -22,9 +22,13 @@
   - [X] 에러 화면 구현
   - [X] 지정된 조건(open 상태, 코멘트 많은 순)에 맞게 데이터 요청 및 표시
   - [X] React, Context API 사용
+  - [X] 5번째 셀마다 광고 이미지 출력
+  - [X] 화면을 아래로 스크롤 할 시 이슈 목록 추가 로딩(인피니티 스크롤)
+  - [X] 두 페이지는 공통 헤더를 공유합니다.
 
 * 선택 사항
   - [X] CSS-in-JS 적용
+
 
 </div>
 </details>
@@ -59,81 +63,222 @@ npm start
 ## 기능 구현
 
 
-### Context API를 활용한 API 연동
+### 🍋 Context API를 활용한 API 연동
 
-- repository, organization 저장
-- 이유 : API 호출 시 활용 & header의 타이틀 활용 & 추후 issues 불러오는 레포 변경 시 context만 변경하면 됨.
+> `활용`: API 호출 시 & Header에서 공통적으로 사용 하고 있는`organization`, `repository` 공유 <br>
+> `의도`: 이후에 facebook & react가 아닌 다른 repo의 issues를 받아오는 상황 발생시 title 객체만 변경하도록 하기 위해 활용 
+
+<br>
+
+**👉🏻 최상단 index.tsx에서 context 생성**
+
+```tsx
+const title = {
+  organization: 'facebook',
+  repository: 'react',
+};
+
+export const TitleContext = createContext(title);
+```
+
+**👉🏻 organization, repository을 인자로 받아서 API 호출**
+
+```ts
+// api/index.ts
+
+export const getIssues = ({
+  organization,
+  repository,
+  page = 1,
+}: IGetIssues) => {
+  return apiClient.get(`${organization}/${repository}/issues`, {
+    params: { sort: 'comments', page },
+  });
+};
+```
+
+```ts
+// hooks/useIssuesInfiniteScroll.ts
+
+const useIssuesInfiniteScroll = () => {
+  const { organization, repository } = useContext(TitleContext);
+  const getIssueList = async (page: number) => {
+    if (page !== 1 && !issues.length) {
+      page = 1;
+    }
+
+    const response = await getIssues({
+      organization,
+      repository,
+      page,
+    });
+
+    setIssues(issues.concat(response.data));
+    setCurrentPage(page);
+    setIsLoading(false);
+  };
+}
+```
+
+**👉🏻 공통 Header에 활용**
+
+```tsx
+// Layout/Header/index.tsx
+
+const Header = () => {
+  const title = useContext(TitleContext);
+  const navigate = useNavigate();
+
+  return (
+    <HeaderBox>
+      <TitleWrap onClick={() => navigate('/')}>
+        <IconGithub />
+        {title.organization.toUpperCase()} / {title.repository.toUpperCase()}
+      </TitleWrap>
+    </HeaderBox>
+  );
+};
+
+```
 
 <br>
 <br>
 
-### 인피니티 스크롤
+### 🍋 인피니티 스크롤
 
-- 이벤트 리스너 활용
+> 관심사 분리: 커스텀 훅으로 인피니티 스크롤과 issues를 불러오고, 로딩하는 기능적인 logic을 만들었고,<br>
+> UI는 Home Page에 나타나도록 구현하였습니다.
+
+<br>
+
+**👉🏻 `useIssuesInfiniteScroll()` 커스텀 훅**
+
+<details>
+<summary> issues를 받아오는 역할</summary>
+<div markdown="1">
+
+<br>
+최초 실행 시 해당 repository의 issues 첫 페이지 issues를 받는 api를 호출합니다.
+
+<br>
+
+```tsx
+  const getIssueList = async (page: number) => {
+    const response = await getIssues({
+      organization,
+      repository,
+      page,
+    });
+
+    setIssues(issues.concat(response.data));
+    setCurrentPage(page);
+    setIsLoading(false);
+  };
+
+// 코드 생략 
+
+  useEffect(() => {
+    getIssueList(1);
+  }, []);
+```
+
+</div>
+</details>
+
+
+<details>
+<summary> 무한스크롤 : scroll이 화면 가장 아래에 닿으면 issues 다음 페이지를 불러오는 역할</summary>
+<div markdown="1">
+
+
+```tsx
+  const handleScroll = useCallback(() => {
+    const { innerHeight } = window;   // 브라우저창 내용의 크기 (스크롤을 포함X)
+    const { scrollHeight } = document.body; // 브라우저 총 내용의 크기 (스크롤을 포함)
+    const { scrollTop } = document.documentElement; // 현재 스크롤 위치
+
+// scrollTop과 innerHeight를 더한 값이 scrollHeight보다 크다면, 아래에 도달했다는 의미 
+    if (Math.round(scrollTop + innerHeight) >= scrollHeight) {
+      setIsLoading(true);
+      getIssueList(currentPage + 1);
+    }
+  }, [currentPage, issues]);
+
+// ... 코드 생략
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, true);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll, true);
+    };
+  }, [handleScroll]);
+
+```
+
+</div>
+</details>
+
+
+
+
 
 <br>
 <br>
 
-### Router / 에러 화면 처리
+**👉🏻 `<Home />` 페이지에서 UI 구현**
 
-- `<Route path="/*" element={} />`
+<img width="800" alt="IssueTitle" src="https://github.com/wanted-pre-onboarding-team12/pre-onboarding-11th-3-12/assets/97151214/ffb6d5c1-ea38-4c22-8a6d-0f99fe2b0d7a">
+
+<details>
+<summary> useIssuesInfiniteScroll()를 호출하여 받은 issues배열을 map method를 통해 각 요소마다 'IssueTitle 컴포넌트' 반환 </summary>
+<div markdown="1">
+
+```tsx
+const Home = () => {
+  const { issues, isLoading } = useIssuesInfiniteScroll();
+
+  return (
+    <>
+      <Main>
+        {issues.map((issue: IIssue, index) => {
+          return (
+            <React.Fragment key={issue.created_at + issue.number}>
+              {index % 4 === 0 && index !== 0 && (
+                <Advertisement
+                  src={adObject.src}
+                  alt={adObject.alt}
+                  path={adObject.path}
+                />
+              )}
+              <div>
+                <StateTag>{issue.state === 'open' && <IconLeaf />}</StateTag>
+                <IssueTitle
+                  number={issue.number}
+                  title={issue.title}
+                  created_at={issue.created_at}
+                  comments={issue.comments}
+                  username={issue.user.login}
+                />
+              </div>
+            </React.Fragment>
+          );
+        })}
+      </Main>
+      {isLoading && <Loading />}
+    </>
+  );
+};
+```
+</div>
+</details>
 
 <br>
 <br>
-
-
-### DetailPage 구현
-
-- 특정 issue를 받아오는 api 활용 & params 활용
-이유 : 단일 데이터 받을 수 있는 api가 있어서 공식문서보고 사용.
-list와 중복된 데이터라 전역으로 관리할지 고민하였으나 단일 데이터 따로 호출 하는 것을 선호하여 사용
-
-<br>
 <br>
 
-### 디테일 페이지 마크다운 -> 마크업으로 변환
-
-- react-markdown + plugin 사용 
-
-<br>
-<br>
-<br>
-<br>
 
 
 ## 구현 결과
+<img width="1200" src="https://github.com/Yang-ah/pre-onboarding-11th-3-12-private/assets/97151214/87e3781f-ed23-403e-a41f-fa7572b4ccf4" />
 
-<br>
-
-
-### Home Page Loading
-
-<img width="1280" alt="homeLoading" src="https://github.com/Yang-ah/pre-onboarding-11th-3-12/assets/97151214/5adadb64-c165-4d27-8ce7-c3c262094601">
-
-### Home Page
-
-<img width="1280" alt="home" src="https://github.com/Yang-ah/pre-onboarding-11th-3-12/assets/97151214/5669e966-36c5-4b39-91ac-b29263fd1299">
-
-<br>
-
-### Home Page Loading Scroll
-
-<img width="1280" alt="lodingScroll" src="https://github.com/Yang-ah/pre-onboarding-11th-3-12/assets/97151214/2ea21d02-d062-4f4e-ab92-bf72eb81e119">
-
-<br>
-
-### Detail Page Loading
-
-<img width="933" alt="loadingDetail" src="https://github.com/Yang-ah/pre-onboarding-11th-3-12/assets/97151214/f3bbc99b-9a91-473c-a623-a24a043d4732">
-
-<br>
-
-### Detail Page
-
-<img width="1280" alt="detail" src="https://github.com/Yang-ah/pre-onboarding-11th-3-12/assets/97151214/c41364fd-e127-45d5-a3fd-20865cbe7af0">
-
-<br>
-
-### Error Page
-
-<img width="1280" alt="errorpage" src="https://github.com/Yang-ah/pre-onboarding-11th-3-12/assets/97151214/8795ac7d-dd91-44f9-b7cb-d3b82d8add72">
